@@ -1,14 +1,17 @@
 import java.util.Comparator;
 
 
+	/**
+	 * 降序排列
+	 * @author CX
+	 *
+	 */
 	public class ComparatorUser implements Comparator<PersonModel> {
 
 		@Override
 		public int compare(PersonModel lhs, PersonModel rhs) {
-			PersonModel mBean1 = lhs;
-			PersonModel mBean2 = rhs;
-			if (mBean1.exp > mBean2.exp) {
-				return 0;
+			if (lhs.exp > rhs.exp) {
+				return -1;
 			} else {
 				return 1;
 			}
