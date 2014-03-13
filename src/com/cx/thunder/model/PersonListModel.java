@@ -1,3 +1,4 @@
+package com.cx.thunder.model;
 import java.util.ArrayList;
 
 public class PersonListModel {

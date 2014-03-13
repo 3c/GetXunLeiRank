@@ -1,3 +1,4 @@
+package com.cx.thunder.config;
 /**
  *    Filename : Config.java
  *    Author   : CX
@@ -12,6 +13,12 @@
  */
 public class Config {
 
+    
+    public static final String PROVINCE_URL="http://dynamic.i.xunlei.com/ajax?c=site&a=topList&type1=1&type2=0&ext=";
+    public static final String CHENGHAO_URL="http://dynamic.i.xunlei.com/ajax?c=site&a=topList&type1=2&type2=0&ext=";
+
+    
+    
     public static  String FILE_PATH="d:/thunder/";
     
     public static final String SUFFIX_TEXT=".txt";
