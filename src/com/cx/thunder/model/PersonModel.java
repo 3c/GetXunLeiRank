@@ -1,4 +1,7 @@
 package com.cx.thunder.model;
+
+import com.cx.thunder.config.EnumVipLevel;
+
 public class PersonModel {
 
     public String name;
@@ -15,7 +18,7 @@ public class PersonModel {
     public float dlgiga;
     public int dlfile;
     public String level_img;
-    public String vip_level="未知";
+    public EnumVipLevel vip_level;
 
     @Override
     public String toString() {

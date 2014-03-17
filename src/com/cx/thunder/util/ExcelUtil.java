@@ -28,6 +28,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 import com.cx.thunder.config.Config;
+import com.cx.thunder.config.EnumVipLevel;
 import com.cx.thunder.model.PersonModel;
 
 /**
@@ -89,53 +90,47 @@ public class ExcelUtil {
             row.createCell((short) 2).setCellValue(model.exp);
             row.createCell((short) 3).setCellValue(model.region);
             row.createCell((short) 4).setCellValue(model.isvip == 1 ? "是" : "不是");
-            String vipLevel = "未知";
+            EnumVipLevel vipLevel = EnumVipLevel.未知;
             // System.out.println(nameArr[i]+" "+model.name);
-            PersonModel modelYesterday = hashMapYesterday.get(model.innerno);
 
-            if (hashMapYesterday != null && modelYesterday != null) {
-                int expAdd = model.exp - modelYesterday.exp;
-                if (expAdd > 150) {
-                    vipLevel = "白金vip7";
-                } else if (expAdd > 140) {
-                    vipLevel = "白金vip6";
-                } else if (expAdd > 130) {
-                    vipLevel = "白金vip5";
-                } else if (expAdd > 120) {
-                    vipLevel = "白金vip4|普通vip6";
-                } else if (expAdd > 110) {
-                    vipLevel = "白金vip3|普通vip5";
-                } else if (expAdd > 100) {
-                    vipLevel = "白金vip2|普通vip4";
-                } else if (expAdd > 90) {
-                    vipLevel = "白金vip1|普通vip3";
-                } else if (expAdd > 80) {
-                    vipLevel = "普通vip2";
-                } else if (expAdd > 70) {
-                    vipLevel = "普通vip1";
+            if (hashMapYesterday != null) {
+
+                PersonModel modelYesterday = hashMapYesterday.get(model.innerno);
+
+                if (hashMapYesterday != null && modelYesterday != null && modelYesterday.isvip == 1) {
+
+                    int expAdd = model.exp - modelYesterday.exp;
+                    if (expAdd > 150) {
+                        vipLevel = EnumVipLevel.白金vip7;
+                    } else if (expAdd > 140) {
+                        vipLevel = EnumVipLevel.白金vip6;
+                    } else if (expAdd > 130) {
+                        vipLevel = EnumVipLevel.白金vip5;
+                    } else if (expAdd > 120) {
+                        vipLevel = EnumVipLevel.白金vip4或普通vip6;
+                    } else if (expAdd > 110) {
+                        vipLevel = EnumVipLevel.白金vip3或普通vip5;
+                    } else if (expAdd > 100) {
+                        vipLevel = EnumVipLevel.白金vip2或普通vip4;
+                    } else if (expAdd > 90) {
+                        vipLevel = EnumVipLevel.白金vip1或普通vip3;
+                    } else if (expAdd > 80) {
+                        vipLevel = EnumVipLevel.普通vip2;
+                    } else if (expAdd > 70) {
+                        vipLevel = EnumVipLevel.普通vip1;
+                    }
+
+                    // 如果通过经验值得出的vipLevel比昨天的要低，那就用昨天的
+
+                    if (vipLevel.compareTo(modelYesterday.vip_level) > 0) {
+                        vipLevel = modelYesterday.vip_level;
+                    }
+
                 }
 
-                if ("白金vip7".equals(modelYesterday.vip_level)) {
-                    vipLevel = "白金vip7";
-                } else if ("白金vip6".equals(modelYesterday.vip_level)) {
-                    vipLevel = "白金vip6";
-                } else if ("白金vip5".equals(modelYesterday.vip_level)) {
-                    vipLevel = "白金vip5";
-                } else if ("白金vip4|普通vip6".equals(modelYesterday.vip_level)) {
-                    vipLevel = "白金vip4|普通vip6";
-                } else if ("白金vip3|普通vip5".equals(modelYesterday.vip_level)) {
-                    vipLevel = "白金vip3|普通vip5";
-                } else if ("白金vip2|普通vip4".equals(modelYesterday.vip_level)) {
-                    vipLevel = "白金vip2|普通vip4";
-                } else if ("白金vip1|普通vip3".equals(modelYesterday.vip_level)) {
-                    vipLevel = "白金vip1|普通vip3";
-                } else if ("普通vip2".equals(modelYesterday.vip_level)) {
-                    vipLevel = "普通vip2";
-                } else if ("普通vip1".equals(modelYesterday.vip_level)) {
-                    vipLevel = "普通vip1";
-                }
             }
-            row.createCell((short) 5).setCellValue(vipLevel);
+
+            row.createCell((short) 5).setCellValue(String.valueOf(vipLevel));
             row.createCell((short) 6).setCellValue(model.innerno);
 
         }

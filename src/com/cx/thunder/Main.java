@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.cx.thunder.config.Config;
+import com.cx.thunder.config.EnumVipLevel;
 import com.cx.thunder.model.PersonListModel;
 import com.cx.thunder.model.PersonModel;
 import com.cx.thunder.util.ComparatorUser;
@@ -76,8 +77,7 @@ public class Main {
         SimpleDateFormat df = new SimpleDateFormat("yyyy_MM_dd");// 设置日期格式
         today = "thunder_" + df.format(new Date());
         read();
-        // write();
-
+//         write();
     }
 
     /**
@@ -222,8 +222,10 @@ public class Main {
                         model.name = result[i][j];
                     } else if (j == 2) {
                         model.exp = Integer.parseInt(result[i][j]);
+                    } else if (j == 4) {
+                        model.isvip = "是".equals(result[i][j]) ? 1 : 0;
                     } else if (j == 5) {
-                        model.vip_level = result[i][j];
+                        model.vip_level = EnumVipLevel.valueOf(result[i][j]);
                     } else if (j == 6) {
                         model.innerno = Integer.parseInt(result[i][j]);
                     }

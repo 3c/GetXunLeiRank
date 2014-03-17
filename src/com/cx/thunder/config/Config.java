@@ -23,5 +23,6 @@ public class Config {
     
     public static final String SUFFIX_TEXT=".txt";
     public static final String SUFFIX_EXCEL=".xls";
+    
 
 }
