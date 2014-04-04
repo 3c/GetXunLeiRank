@@ -114,7 +114,7 @@ public class Main {
                     for (int i = 1; i < 35; i++) {
 
                         // 间隔1-10S ,再去请求，防止400错误
-                        time = (int) (Math.random() * 9000) + 1000;
+                        time = (int) (Math.random() * 9000) + 5000;
                         String requestUrl = privicenUrl + i + "&cachetime=" + System.currentTimeMillis();
                         System.out.println(i + " : " + requestUrl);
                         String content = HttpUtil.sendGet(requestUrl);
