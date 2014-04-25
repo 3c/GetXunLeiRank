@@ -80,6 +80,10 @@ public class Main {
 //         write();
     }
 
+    
+
+    
+
     /**
      * 设置文件保存路径，默认是 工程目录/doc
      */
@@ -218,15 +222,15 @@ public class Main {
                 PersonModel model = new PersonModel();
 
                 for (int j = 0; j < result[i].length; j++) {
-                    if (j == 1) {
+                    if (j == 2) {
                         model.name = result[i][j];
-                    } else if (j == 2) {
+                    } else if (j == 3) {
                         model.exp = Integer.parseInt(result[i][j]);
-                    } else if (j == 4) {
-                        model.isvip = "是".equals(result[i][j]) ? 1 : 0;
                     } else if (j == 5) {
-                        model.vip_level = EnumVipLevel.valueOf(result[i][j]);
+                        model.isvip = "是".equals(result[i][j]) ? 1 : 0;
                     } else if (j == 6) {
+                        model.vip_level = EnumVipLevel.valueOf(result[i][j]);
+                    } else if (j == 0) {
                         model.innerno = Integer.parseInt(result[i][j]);
                     }
                     // System.out.print(result[i][j]+"\t\t");

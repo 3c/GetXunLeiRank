@@ -59,25 +59,31 @@ public class ExcelUtil {
         HSSFCellStyle style = wb.createCellStyle();
         style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 创建一个居中格式
         HSSFCell cell = row.createCell((short) 0);
-        cell.setCellValue("排名");
+        cell.setCellValue("内部ID");
         cell.setCellStyle(style);
         cell = row.createCell((short) 1);
-        cell.setCellValue("用户名");
+        cell.setCellValue("排名");
         cell.setCellStyle(style);
         cell = row.createCell((short) 2);
-        cell.setCellValue("经验");
+        cell.setCellValue("用户名");
         cell.setCellStyle(style);
         cell = row.createCell((short) 3);
-        cell.setCellValue("省份");
+        cell.setCellValue("经验");
         cell.setCellStyle(style);
         cell = row.createCell((short) 4);
-        cell.setCellValue("是否是会员");
+        cell.setCellValue("省份");
         cell.setCellStyle(style);
         cell = row.createCell((short) 5);
-        cell.setCellValue("会员等级");
+        cell.setCellValue("是否是会员");
         cell.setCellStyle(style);
         cell = row.createCell((short) 6);
-        cell.setCellValue("内部ID");
+        cell.setCellValue("会员等级");
+        cell.setCellStyle(style);
+        cell = row.createCell((short) 7);
+        cell.setCellValue("经验等级");
+        cell.setCellStyle(style);
+        cell = row.createCell((short) 8);
+        cell.setCellValue("昨日增加经验");
         cell.setCellStyle(style);
         // 第五步，写入实体数据 实际应用中这些数据从数据库得到，
 
@@ -85,53 +91,63 @@ public class ExcelUtil {
             row = sheet.createRow((int) i + 1);
             PersonModel model = list.get(i);
             // 第四步，创建单元格，并设置值
-            row.createCell((short) 0).setCellValue(i + 1);
-            row.createCell((short) 1).setCellValue(model.name);
-            row.createCell((short) 2).setCellValue(model.exp);
-            row.createCell((short) 3).setCellValue(model.region);
-            row.createCell((short) 4).setCellValue(model.isvip == 1 ? "是" : "不是");
+            row.createCell((short) 0).setCellValue(model.innerno);
+            row.createCell((short) 1).setCellValue(i + 1);
+            row.createCell((short) 2).setCellValue(model.name);
+            row.createCell((short) 3).setCellValue(model.exp);
+            row.createCell((short) 4).setCellValue(model.region);
+            row.createCell((short) 5).setCellValue(model.isvip == 1 ? "是" : "不是");
             EnumVipLevel vipLevel = EnumVipLevel.未知;
+            int expAdded=0;
             // System.out.println(nameArr[i]+" "+model.name);
-
+            
             if (hashMapYesterday != null) {
 
                 PersonModel modelYesterday = hashMapYesterday.get(model.innerno);
 
-                if (hashMapYesterday != null && modelYesterday != null && modelYesterday.isvip == 1) {
+                if (hashMapYesterday != null && modelYesterday != null ) {
+                    expAdded=model.exp-modelYesterday.exp;
+                    
+                    if(modelYesterday.isvip == 1){
+                        
+                        int expAdd = model.exp - modelYesterday.exp;
+                        if (expAdd > 150) {
+                            vipLevel = EnumVipLevel.白金vip7;
+                        } else if (expAdd > 140) {
+                            vipLevel = EnumVipLevel.白金vip6;
+                        } else if (expAdd > 130) {
+                            vipLevel = EnumVipLevel.白金vip5;
+                        } else if (expAdd > 120) {
+                            vipLevel = EnumVipLevel.白金vip4或普通vip6;
+                        } else if (expAdd > 110) {
+                            vipLevel = EnumVipLevel.白金vip3或普通vip5;
+                        } else if (expAdd > 100) {
+                            vipLevel = EnumVipLevel.白金vip2或普通vip4;
+                        } else if (expAdd > 90) {
+                            vipLevel = EnumVipLevel.白金vip1或普通vip3;
+                        } else if (expAdd > 80) {
+                            vipLevel = EnumVipLevel.普通vip2;
+                        } else if (expAdd > 70) {
+                            vipLevel = EnumVipLevel.普通vip1;
+                        }
 
-                    int expAdd = model.exp - modelYesterday.exp;
-                    if (expAdd > 150) {
-                        vipLevel = EnumVipLevel.白金vip7;
-                    } else if (expAdd > 140) {
-                        vipLevel = EnumVipLevel.白金vip6;
-                    } else if (expAdd > 130) {
-                        vipLevel = EnumVipLevel.白金vip5;
-                    } else if (expAdd > 120) {
-                        vipLevel = EnumVipLevel.白金vip4或普通vip6;
-                    } else if (expAdd > 110) {
-                        vipLevel = EnumVipLevel.白金vip3或普通vip5;
-                    } else if (expAdd > 100) {
-                        vipLevel = EnumVipLevel.白金vip2或普通vip4;
-                    } else if (expAdd > 90) {
-                        vipLevel = EnumVipLevel.白金vip1或普通vip3;
-                    } else if (expAdd > 80) {
-                        vipLevel = EnumVipLevel.普通vip2;
-                    } else if (expAdd > 70) {
-                        vipLevel = EnumVipLevel.普通vip1;
+                        // 如果通过经验值得出的vipLevel比昨天的要低，那就用昨天的
+
+                        if (vipLevel.compareTo(modelYesterday.vip_level) > 0) {
+                            vipLevel = modelYesterday.vip_level;
+                        }
+                        
                     }
-
-                    // 如果通过经验值得出的vipLevel比昨天的要低，那就用昨天的
-
-                    if (vipLevel.compareTo(modelYesterday.vip_level) > 0) {
-                        vipLevel = modelYesterday.vip_level;
-                    }
+                    
+                
 
                 }
 
             }
 
-            row.createCell((short) 5).setCellValue(String.valueOf(vipLevel));
-            row.createCell((short) 6).setCellValue(model.innerno);
+            row.createCell((short) 6).setCellValue(String.valueOf(vipLevel));
+            row.createCell((short) 7).setCellValue(ExpUtil.getLevel(model.exp));
+            row.createCell((short) 8).setCellValue(expAdded);
 
         }
         // 第六步，将文件存到指定位置
