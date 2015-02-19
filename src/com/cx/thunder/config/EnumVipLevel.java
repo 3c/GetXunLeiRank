@@ -12,5 +12,5 @@ package com.cx.thunder.config;
  *
  */
 public enum EnumVipLevel {
-    白金vip7,白金vip6,白金vip5,白金vip4或普通vip6,白金vip3或普通vip5,白金vip2或普通vip4,白金vip1或普通vip3,普通vip2,普通vip1,未知
+   白金vip7,白金vip6,白金vip5,白金vip4或普通vip6,白金vip3或普通vip5,白金vip2或普通vip4,白金vip1或普通vip3,普通vip2,普通vip1,未知
 }
